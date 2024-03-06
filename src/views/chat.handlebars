@@ -1,0 +1,22 @@
+<div>
+  <form action="/chat" method="post">
+    <label for="user">user</label>
+    {{#if exist}}
+      <input type="text" name="user" id="user" value="{{last.user}}" />
+    {{else}}
+      <input type="text" name="user" id="user" />
+    {{/if}}
+    <label for="message">menssage</label>
+    <input type="text" name="message" id="message" />
+    <button type="submit">enviar</button>
+  </form>
+</div>
+
+{{#each messages}}
+  <p>
+    {{this.user}}
+  </p>
+  <p>
+    {{this.message}}
+  </p>
+{{/each}}

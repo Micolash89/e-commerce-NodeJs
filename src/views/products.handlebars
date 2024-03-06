@@ -1,0 +1,25 @@
+<h1>hola {{user.first_name}}</h1>
+
+{{#if isValid}}
+<div>
+  <h2>Products</h2>
+  {{#each docs}}
+    <p>id: {{this._id}}</p>
+    <p>title: {{this.title}}</p>
+    <p>description: {{this.description}}</p>
+    <p>price: {{this.price}}</p>
+    <p>stock: {{this.stock}}</p>
+    <p>category: {{this.category}}</p>
+<br>
+  {{/each}}
+</div>
+{{#if hasPrevPage}}
+<a href={{this.prevLink}}><< Last page</a>
+{{/if}}
+{{this.page}}
+{{#if hasNextPage}}
+<a href={{this.nextLink}}>Next page >></a>
+{{/if}}
+{{else}}
+<h1>No products to show</h1>
+{{/if}}
