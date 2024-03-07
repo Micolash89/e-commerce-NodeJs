@@ -41,6 +41,7 @@ export default class CartsDB {
 
     addProduct = async (cid, pid) => {
         try {
+
             let cart = await this.getOne(cid);
 
             if (cart[0]) {

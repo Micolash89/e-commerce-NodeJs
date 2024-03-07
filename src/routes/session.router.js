@@ -43,6 +43,24 @@ sessionRouter.get('/restorepassword', async (req, res) => {
 
 });
 
+/**/
+
+sessionRouter.get('/changerole', passport.authenticate("jwt", { session: false }), async (req, res) => {
+
+    let user = req.user.user;
+    if (user.role == "admin") {
+        return res.send({ status: "error", message: 'No pudes cambiar el rol , esres Admin' });
+    }
+
+    user.role = user.role == "premium" ? "user" : "premium";
+
+
+    await userDB.updateUser(user);
+    //updatear el jwt tokeck y el cookie
+
+    res.send({ status: "success", message: 'Rol cambiado' });
+})
+
 /*restaurar y enviar email*/
 sessionRouter.post('/restorepassword', async (req, res) => {
 

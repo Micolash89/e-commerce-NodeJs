@@ -12,7 +12,7 @@ cartsRouter.get('/all', passport.authenticate("jwt", { session: false }), getCar
 
 cartsRouter.post('/', passport.authenticate("jwt", { session: false }), postCart);
 
-cartsRouter.post('/products/:pid', passport.authenticate("jwt", { session: false }), autorization("user"), addProductToCart);
+cartsRouter.post('/products/:pid', passport.authenticate("jwt", { session: false }), autorization("user", "premium"), addProductToCart);
 
 cartsRouter.delete('/products/:pid', passport.authenticate("jwt", { session: false }), deleteProduct);
 

@@ -60,10 +60,21 @@ export const addProductToCart = async (req, res) => {
     try {
         const productId = req.params.pid;
         const cartId = req.user.user.cart;
+        //validar que el el producto exista en la base de datos
 
-        const cart = await cartsDB.addProduct(cartId, productId);
+        const prod = await productsDB.getOne(productId);
 
-        res.send({ payload: cart })
+        if (prod && prod[0].owner != req.user.user.email) {
+
+            const cart = await cartsDB.addProduct(cartId, productId);
+
+            return res.send({ payload: cart })
+
+        } else {
+            return res.status(403).send({ status: 'error', message: 'you are the owner of this product' });
+        }
+
+
 
     } catch (error) {
         res.status(500).send({ status: 'error', message: error });
