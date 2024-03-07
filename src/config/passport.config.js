@@ -1,11 +1,14 @@
 import passport from "passport";
 import local from "passport-local";
-import { createHash, isValidPassword } from "../utils.js";
+import { createHash, isValidPassword, sendMail } from "../utils.js";
 import UserDB from "../dao/dbManagers/userDB.js";
 import jwt from "passport-jwt";
 import GitHubStrategy from "passport-github2";
 import CartsDB from './../dao/dbManagers/CartsDB.js';
 import config from "./config.js";
+import CustomError from "../services/errors/Custom.Error.js";
+import { generateUserErrorInfo } from "../services/errors/info.js";
+import EErrors from "../services/errors/enums.js";
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
@@ -49,6 +52,16 @@ const initializePassport = () => {
     }, async (req, username, password, done) => {
         const { first_name, last_name, email, age } = req.body;
         try {
+            if (!first_name || !last_name || !email || !age) {
+                CustomError.createError({
+                    name: "User creation Error",
+                    cause: generateUserErrorInfo({ first_name, last_name, email, age }),
+                    message: "Error Trying to create User",
+                    code: EErrors.INVALID_TYPES_ERROR
+                })
+            }
+
+
             let user = await userDB.findEmail(username);
             if (user) {
                 console.log("El usuario ya existe");
@@ -65,11 +78,11 @@ const initializePassport = () => {
                 cart: cart._id,
                 password: createHash(password)
             }
-
+            req.user = newUser;
             let result = await userDB.createOne(newUser);
             return done(null, result);
         } catch (err) {
-            return done('Error al obtener el usuario' + err);
+            return done('Error al obtener el usuario ' + err);
         }
     }));
     passport.use('login', new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {

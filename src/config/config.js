@@ -10,4 +10,6 @@ export default {
     clientId: process.env.CLIENT_ID,
     cookieToken: process.env.COOKIE_TOKEN,
     secretKey: process.env.SECRET_KEY,
+    emailUser: process.env.EMAIL_USER,
+    passwordAppGoogle: process.env.PASSWORD_EMAIL_APP_GOOGLE,
 }

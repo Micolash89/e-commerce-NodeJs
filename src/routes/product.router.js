@@ -2,8 +2,8 @@ import { Router } from 'express';
 import ProductBD from '../dao/dbManagers/ProductDB.js';
 import uploader from '../utils2.js';
 import { productModel } from '../dao/models/product.model.js';
-import { getProduct, getProductById, getmockingproducts, postProduct, putProduct } from '../constrollers/product.controller.js';
-import { deleteProduct } from './../constrollers/product.controller.js';
+import { getProduct, getProductById, getmockingproducts, postProduct, putProduct } from '../controllers/product.controller.js';
+import { deleteProduct } from '../controllers/product.controller.js';
 import passport from 'passport';
 import { autorization, passportCall } from '../utils.js';
 

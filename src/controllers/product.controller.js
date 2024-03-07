@@ -1,4 +1,4 @@
-import { productModel } from './../dao/models/product.model.js';
+import { productModel } from '../dao/models/product.model.js';
 import ProductDB from '../dao/dbManagers/ProductDB.js';
 import { generateProducts } from '../utils.js';
 

@@ -6,6 +6,8 @@ import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import passport from 'passport';
 import { faker } from '@faker-js/faker';
+import nodemailer from 'nodemailer';
+import config from './config/config.js';
 
 
 export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -13,12 +15,30 @@ export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSy
 export const isValidPassword = (user, password) => bcrypt.compareSync(password, user.password);
 
 /*token*/
-const PRIVATE_KEY = "CoderKeyQueFuncionaComoUnSecret";
+const PRIVATE_KEY = config.secretKey;
 
 export const generateToken = (user) => {
     const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: "24h" });
     return token;
 };
+export const generateTokenRestore = (user) => {
+    const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: "1h" });
+    return token;
+};
+
+export const extractorTokenRestore = (token) => {
+    let user;
+    try {
+
+        user = jwt.verify(token, PRIVATE_KEY).user;
+
+    } catch (error) {
+        console("token invalido", error.message);
+        return null;
+    }
+
+    return user;
+}
 
 export const passportCall = (strategy) => {
     return async (req, res, next) => {
@@ -55,9 +75,61 @@ export const authToken = (req, res, next) => {
     });
 };
 
-/*Mocks*/
+/*mailing*/
 
-// Crear una instancia de Faker con el idioma español como predeterminado
+const transporter = nodemailer.createTransport({
+
+    service: 'gmail',
+    port: 587,
+    auth: {
+        user: config.emailUser,
+        pass: config.passwordAppGoogle
+    }
+
+})
+
+export const sendMail = async (email) => {
+
+    await transporter.sendMail({
+        from: `E-comerce`,// sender address cambiar para mas adelante
+        to: email,//req.user.user.email
+        subject: 'Registrado ✔', //cambiar titulo
+        html: `
+        <div>
+            <h1>Hello world?</h1>
+            <img src='cid:perrito1'/>
+        </div>
+        `,//cambiar html
+        // attachments: [{
+        //     filename: 'perrito1.jpg',//nombre del archivo guardado en tu carpeta images
+        //     path: __dirname + '/img/perrito1.jpg',//foto del ecomerce
+        //     cid: 'perrito1'//nombre del archivo o algo por el estilo
+        // }]
+    })
+
+}
+export const sendMailRestore = async (email, token) => {
+
+    await transporter.sendMail({
+        from: `E-comerce`,// sender address cambiar para mas adelante
+        to: email,//req.user.user.email
+        subject: 'Restaurar password ✔', //cambiar titulo
+        html: `
+        <div>
+            <a href="http://localhost:8080/api/sessions/restorepassword/${token}">Click aqui para restaurar</a>
+        </div>
+        `,//cambiar html
+        // attachments: [{
+        //     filename: 'perrito1.jpg',//nombre del archivo guardado en tu carpeta images
+        //     path: __dirname + '/img/perrito1.jpg',//foto del ecomerce
+        //     cid: 'perrito1'//nombre del archivo o algo por el estilo
+        // }]
+    })
+
+}
+
+
+/*Mocks*/
 
 export const generateProducts = () => {
 
@@ -80,5 +152,8 @@ export const generateProducts = () => {
 
     return products;
 }
+
+
+
 
 export default __dirname;

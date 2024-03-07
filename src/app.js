@@ -13,6 +13,7 @@ import passport from "passport";
 import session from "express-session";
 //import allowInsecurePrototypeAccess from '@handlebars/allow-prototype-access';
 import config from "./config/config.js";
+import errorHandler from "./middlewares/errors/index.js"
 
 const port = config.port || 8080;
 
@@ -38,6 +39,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+
+/*errors*/
+app.use(errorHandler);
+
 
 initializePassport();
 app.use(passport.initialize());

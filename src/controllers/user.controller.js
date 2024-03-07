@@ -1,5 +1,5 @@
 import config from "../config/config.js";
-import { generateToken } from "../utils.js";
+import { generateToken, sendMail } from "../utils.js";
 
 export const getLogin = async (req, res) => {
     try {
@@ -37,6 +37,7 @@ export const getRegistrer = async (req, res) => {
 }
 
 export const postRegister = async (req, res) => {
+    sendMail(req.user.email);
     res.render('login', {});//cambiar un estado(objeto) en usuario registrado o algo por el estilo
 }
 

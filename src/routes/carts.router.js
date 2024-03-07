@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import CartsDB from '../dao/dbManagers/CartsDB.js';
-import { addProductToCart, deleteCart, deleteProduct, getCarts, getCartsById, postCart, purchaseCart, putCart, updateCartproduct } from '../constrollers/carts.controller.js';
+import { addProductToCart, deleteCart, deleteProduct, getCarts, getCartsById, postCart, purchaseCart, putCart, updateCartproduct } from '../controllers/carts.controller.js';
 import passport from 'passport';
 import { autorization } from '../utils.js';
 
