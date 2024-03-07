@@ -19,11 +19,11 @@ productRouter.get('/:id', getProductById);
 
 /*solo el admin tiene acceso a estos endponts*/
 //,passportCall('jwt'),autorization("admin") 
-productRouter.post('/', passportCall('jwt'), autorization("admin"), postProduct);
+productRouter.post('/', passportCall('jwt'), autorization("admin", "premium"), postProduct);
 
-productRouter.put('/:pid', passportCall('jwt'), autorization("admin"), putProduct);
+productRouter.put('/:pid', passportCall('jwt'), autorization("admin", "premium"), putProduct);
 
-productRouter.delete('/:pid', passportCall('jwt'), autorization("admin"), deleteProduct);
+productRouter.delete('/:pid', passportCall('jwt'), autorization("admin", "premium"), deleteProduct);
 
 /*MOKS*/
 productRouter.get('/mockingproducts/mock', getmockingproducts);

@@ -35,13 +35,15 @@ const productSchema = new mongoose.Schema({
     },
     thumbnails: {//ver q onda despues
         type: [String]
+    },
+    owner: {
+        type: String,
+        default: "admin"
     }
 
 })
 
 productSchema.plugin(mongoosePaginate);
-
-
 
 
 export const productModel = mongoose.model(productCollection, productSchema);

@@ -51,6 +51,10 @@ export const postProduct = async (req, res) => {
             })
         }
 
+        if (req.user.user.role == 'premium') {
+            newProduct.owner = req.user.user.email;
+        }
+
         let resp = await product.createOne(newProduct);
 
         res.send({ status: 'ok', message: resp, payload: newProduct });
@@ -67,6 +71,18 @@ export const putProduct = async (req, res) => {
 
         let productNew = req.body;
 
+        let prod = await product.getOne(pid);
+        if (!prod) {
+            return res.status(404).send({ status: 'error', message: 'product not found' });
+        }
+
+        //admin f
+        //premium v v = v
+        // v  f f 
+        if (req.user.user.role == 'premium' && prod[0].owner != req.user.user.email) {
+            return res.status(403).send({ status: 'error', message: 'you are not the owner of this product' });
+        }
+
         let resp = await product.modificate(pid, productNew);
 
         res.send({ status: 'ok', message: resp, payload: resp });
@@ -79,6 +95,16 @@ export const deleteProduct = async (req, res) => {
     try {
 
         let { pid } = req.params;
+
+        let prod = await product.getOne(pid);
+
+        if (!prod) {
+            return res.status(404).send({ status: 'error', message: 'product not found' });
+        }
+
+        if (req.user.user.role == 'premium' && prod[0].owner != req.user.user.email) {
+            return res.status(403).send({ status: 'error', message: 'you are not the owner of this product' });
+        }
 
         let resp = await product.remove(pid);
 
