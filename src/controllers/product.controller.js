@@ -1,6 +1,9 @@
 import { productModel } from '../dao/models/product.model.js';
 import ProductDB from '../dao/dbManagers/ProductDB.js';
 import { generateProducts } from '../utils.js';
+import CustomError from '../services/errors/Custom.Error.js';
+import { generateProductErrorInfo } from '../services/errors/info.js';
+import EErrors from '../services/errors/enums.js';
 
 const product = new ProductDB();
 
@@ -37,11 +40,20 @@ export const getProductById = async (req, res) => {
 
 export const postProduct = async (req, res) => {
     try {
-        let pepe = req.body;//validar las variables
+        let newProduct = req.body;//validar las variables
 
-        let resp = await product.createOne(pepe);
+        if (!newProduct.title || !newProduct.description || !newProduct.code || !newProduct.price || !newProduct.category) {
+            CustomError.createError({
+                name: "Product Error",
+                cause: generateProductErrorInfo(newProduct),
+                message: "Error Trying to create Product",
+                code: EErrors.INVALID_TYPES_ERROR
+            })
+        }
 
-        res.send({ status: 'ok', message: resp, payload: pepe });
+        let resp = await product.createOne(newProduct);
+
+        res.send({ status: 'ok', message: resp, payload: newProduct });
 
     } catch (error) {
         res.status(500).send({ status: 'error', message: error });

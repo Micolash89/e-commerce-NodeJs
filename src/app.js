@@ -14,6 +14,7 @@ import session from "express-session";
 //import allowInsecurePrototypeAccess from '@handlebars/allow-prototype-access';
 import config from "./config/config.js";
 import errorHandler from "./middlewares/errors/index.js"
+import { addLogger } from "./logger.js";
 
 const port = config.port || 8080;
 
@@ -43,6 +44,8 @@ app.use(session({
 /*errors*/
 app.use(errorHandler);
 
+/*Logger*/
+//app.use(addLogger);
 
 initializePassport();
 app.use(passport.initialize());

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 //import UserDB from './../DAO/managersDB/userDB.js';
-import { authToken, createHash, extractorTokenRestore, generateToken, isValidPassword, sendMailRestore } from '../utils.js';
+import { authToken, createHash, extractorTokenRestore, generateToken, generateTokenRestore, isValidPassword, sendMailRestore } from '../utils.js';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import UserDB from '../dao/dbManagers/userDB.js';
@@ -53,7 +53,7 @@ sessionRouter.post('/restorepassword', async (req, res) => {
 
         if (user) {
 
-            const token = generateToken(user);
+            const token = generateTokenRestore(user);
 
             sendMailRestore(user.email, token);
 
@@ -78,7 +78,7 @@ sessionRouter.get('/restorepassword/:token', async (req, res) => {
 
         res.render('RestorePasswordToken', { style: 'login.css', id: user._id, token });//ver el token
     } else {
-        res.res({ status: "error", message: 'Invalid link or expired.' });
+        res.send({ status: "error", message: 'Invalid link or expired.' });
     }
 
 });
@@ -86,6 +86,9 @@ sessionRouter.get('/restorepassword/:token', async (req, res) => {
 sessionRouter.post('/restorepassword/:token', async (req, res) => {
 
     const { password, confirm_password, id } = req.body;
+    // const token = req.params.token;
+
+
 
     if (password === confirm_password) {
 

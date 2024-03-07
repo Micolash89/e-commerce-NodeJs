@@ -33,7 +33,7 @@ export const extractorTokenRestore = (token) => {
         user = jwt.verify(token, PRIVATE_KEY).user;
 
     } catch (error) {
-        console("token invalido", error.message);
+        console.log("token invalido", error.message);
         return null;
     }
 

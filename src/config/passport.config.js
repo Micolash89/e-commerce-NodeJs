@@ -58,9 +58,8 @@ const initializePassport = () => {
                     cause: generateUserErrorInfo({ first_name, last_name, email, age }),
                     message: "Error Trying to create User",
                     code: EErrors.INVALID_TYPES_ERROR
-                })
+                });
             }
-
 
             let user = await userDB.findEmail(username);
             if (user) {
@@ -87,6 +86,16 @@ const initializePassport = () => {
     }));
     passport.use('login', new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
         try {
+
+            if (!username || !password) {
+                CustomError.createError({
+                    name: "Login creation Error",
+                    cause: generateLoginErrorInfo({ username, password }),
+                    message: "Error Trying to login",
+                    code: EErrors.INVALID_TYPES_ERROR
+                });
+            }
+
             const user = await userDB.findEmail(username);
             if (!user) {
                 console.log('usuario no existe')

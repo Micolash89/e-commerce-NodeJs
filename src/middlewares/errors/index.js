@@ -9,6 +9,5 @@ export default (error, req, res, next) => {
         //agregar mas casos para los distintos items 
         default:
             res.send({ status: "error", error: error.message });
-
     }
 }
