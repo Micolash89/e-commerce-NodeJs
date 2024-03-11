@@ -9,6 +9,7 @@ import config from "./config.js";
 import CustomError from "../services/errors/Custom.Error.js";
 import { generateUserErrorInfo } from "../services/errors/info.js";
 import EErrors from "../services/errors/enums.js";
+import { logger } from './../logger.js';
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
@@ -63,6 +64,7 @@ const initializePassport = () => {
 
             let user = await userDB.findEmail(username);
             if (user) {
+                logger.warning("el usuario ya existe");
                 console.log("El usuario ya existe");
                 return done(null, false)
             }

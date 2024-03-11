@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import UserDB from '../dao/dbManagers/userDB.js';
 import { getFailLogin, getFailRegister, getGithubCallback, getLogOut, getLogin, getPerfil, getRegistrer, postLogin, postRegister } from '../controllers/user.controller.js';
 import { getGithub } from '../controllers/user.controller.js';
+import config from '../config/config.js';
 
 const sessionRouter = Router();
 
@@ -54,11 +55,13 @@ sessionRouter.get('/changerole', passport.authenticate("jwt", { session: false }
 
     user.role = user.role == "premium" ? "user" : "premium";
 
-
-    await userDB.updateUser(user);
+    const result = await userDB.updateUser(user);
     //updatear el jwt tokeck y el cookie
 
-    res.send({ status: "success", message: 'Rol cambiado' });
+    const token = generateToken(user);
+
+
+    res.cookie(config.cookieToken, token, { maxAge: 60 * 60 * 1000, httpOnly: true }).status(200).send({ status: "success", message: 'Rol cambiado', result });
 })
 
 /*restaurar y enviar email*/

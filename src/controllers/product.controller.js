@@ -73,6 +73,7 @@ export const putProduct = async (req, res) => {
 
         let prod = await product.getOne(pid);
         if (!prod) {
+
             return res.status(404).send({ status: 'error', message: 'product not found' });
         }
 
@@ -87,6 +88,7 @@ export const putProduct = async (req, res) => {
 
         res.send({ status: 'ok', message: resp, payload: resp });
     } catch (error) {
+        req.logger.warning("no se encontro el producto")
         res.status(500).send({ status: 'error', message: error });
     }
 }

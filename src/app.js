@@ -1,7 +1,6 @@
 import express from "express";
 import __dirname from './utils.js'
 import handlebars from 'express-handlebars';
-//import { messageModel } from "./src/dao/models/message.model.js";
 import mongoose from 'mongoose';
 import messageRouter from "./routes/message.router.js";
 import productRouter from "./routes/product.router.js";
@@ -11,7 +10,6 @@ import sessionRouter from "./routes/session.router.js";
 import initializePassport from "./config/passport.config.js";
 import passport from "passport";
 import session from "express-session";
-//import allowInsecurePrototypeAccess from '@handlebars/allow-prototype-access';
 import config from "./config/config.js";
 import errorHandler from "./middlewares/errors/index.js"
 import { addLogger } from "./logger.js";
@@ -20,7 +18,6 @@ const port = config.port || 8080;
 
 const app = express();
 mongoose.connect(config.urlMongo);
-//const Server = app.listen(8080, () => console.log("conexion"))
 
 //cookie
 app.use(cookieParser());
@@ -29,7 +26,6 @@ app.use(cookieParser());
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars');
-//app.locals.Handlebars = allowInsecurePrototypeAccess(handlebars);
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
@@ -45,7 +41,7 @@ app.use(session({
 app.use(errorHandler);
 
 /*Logger*/
-//app.use(addLogger);
+app.use(addLogger);
 
 initializePassport();
 app.use(passport.initialize());
