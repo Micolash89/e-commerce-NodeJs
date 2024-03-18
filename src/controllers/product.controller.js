@@ -21,7 +21,8 @@ export const getProduct = async (req, res) => {
 
     products.user = req.user?.user || { first_name: "no login" }
 
-    res.render("products", products);
+    //res.render("products", products);
+    res.send({ status: 'ok', payload: products });
 }
 
 

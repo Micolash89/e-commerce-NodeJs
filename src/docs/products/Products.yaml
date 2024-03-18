@@ -7,5 +7,124 @@ paths:
       responses:
         "200":
           description: los productos fueron obtenidos correctamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Product"
         "500":
           description: Error interno del servidor.
+  /api/products/{pid}:
+    get:
+      summary: Obtener un producto por su id.
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del producto.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: el producto fue obtenido correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Product"
+        "500":
+          description: Error interno del servidor.
+    put:
+      summary: Actualizar un producto por su id.
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Id del producto a actualizar.
+          schema:
+            $type: string
+      reqestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateProduct"
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Identificador único del product
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: Descripción del producto
+        code:
+          type: string
+          description: Código del producto
+        price:
+          type: number
+          description: Precio del producto
+        status:
+          type: boolean
+          description: estado del producto, si se muestra en el catalogo.
+        category:
+          type: string
+          description: Categoría del producto
+        thumbnails:
+          type: string
+          description: Imagenes del producto
+        owner:
+          type: string
+          description: Usuario que creo el producto. por defecto es user.
+      example:
+        _id: objectId("d1sa231ds2a3dasdsadsa")
+        title: Producto 1
+        description: Descripción del producto
+        code: "ABC123"
+        price: 123.45
+        status: true
+        category: "Categoría 1"
+        thumbnails: "XXXXXXXXXXXXXXXXXXXXXXX"
+        owner: "admin"
+  requesttBodies:
+    updateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: Descripción del producto
+        code:
+          type: string
+          description: Código del producto
+        price:
+          type: number
+          description: Precio del producto
+        status:
+          type: boolean
+          description: estado del producto, si se muestra en el catalogo.
+        thumbnails:
+          type: string
+          description: Imagenes del producto
+        owner:
+          type: string
+          decription: Usuario que creo el producto. por defecto es user.
+      example:
+        title: Producto 2
+        description: Descripción del producto
+        code: "ABC1234"
+        price: 1234.45
+        status: true
+        thumbnails: "XXXXXXXXXXXXXXXXXXXXXXX"
+        owner: "user@user"
