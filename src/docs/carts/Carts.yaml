@@ -1,0 +1,11 @@
+paths:
+  /api/carts/:
+    get:
+      summary: Obteniendo todos lo carritos una vez logueado una cuenta de usuario.
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: los carritos fueron obtenidos correctamente.
+        "500":
+          description: Error interno del servidor.

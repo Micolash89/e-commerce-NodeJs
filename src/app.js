@@ -13,6 +13,8 @@ import session from "express-session";
 import config from "./config/config.js";
 import errorHandler from "./middlewares/errors/index.js"
 import { addLogger } from "./logger.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 
 const port = config.port || 8080;
 
@@ -46,6 +48,21 @@ app.use(addLogger);
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session()); // permite que los datos de sesión se guarden en la solicitud
+
+/*Documenetación API*/
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Documentación del E-commerce',
+            description: 'API para el E-commerce',
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+}
+const swaggerDocs = swaggerJSDoc(swaggerOptions);
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerDocs));
+
 
 app.use('/chat', messageRouter);
 app.use('/api/products', productRouter);

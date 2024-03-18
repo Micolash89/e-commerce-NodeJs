@@ -1,0 +1,11 @@
+paths:
+  /api/products/:
+    get:
+      summary: Obteniendo todos los productos de la base de datos.
+      tags:
+        - Products
+      responses:
+        "200":
+          description: los productos fueron obtenidos correctamente.
+        "500":
+          description: Error interno del servidor.
