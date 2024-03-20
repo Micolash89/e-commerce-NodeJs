@@ -60,7 +60,7 @@ components:
       properties:
         _id:
           type: ObjectId
-          description: Identificador único del product
+          description: Identificador único del producto.
         title:
           type: string
           description: Nombre del producto
