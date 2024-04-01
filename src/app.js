@@ -22,7 +22,7 @@ import cors from 'cors';
 const port = config.port || 8080;
 
 const app = express();
-app.use(cors({ origin: config.prod, methods: ['GET', 'POST', 'PUT', 'DELETE'] }));
+app.use(cors({ origin: config.all, methods: ['GET', 'POST', 'PUT', 'DELETE'] }));
 mongoose.connect(config.urlMongo);
 
 //cookie
