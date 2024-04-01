@@ -12,4 +12,7 @@ export default {
     secretKey: process.env.SECRET_KEY,
     emailUser: process.env.EMAIL_USER,
     passwordAppGoogle: process.env.PASSWORD_EMAIL_APP_GOOGLE,
+    dev: process.env.URL_DEV,
+    prod: process.env.URL_PROD,
+    all: process.env.URL_ALL,
 }

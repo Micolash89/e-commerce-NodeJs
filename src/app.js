@@ -15,10 +15,14 @@ import errorHandler from "./middlewares/errors/index.js"
 import { addLogger } from "./logger.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
+import cors from 'cors';
+
+
 
 const port = config.port || 8080;
 
 const app = express();
+app.use(cors({ origin: config.prod, methods: ['GET', 'POST', 'PUT', 'DELETE'] }));
 mongoose.connect(config.urlMongo);
 
 //cookie
