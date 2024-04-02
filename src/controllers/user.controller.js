@@ -12,7 +12,7 @@ export const getLogin = async (req, res) => {
 export const postLogin = async (req, res) => {
     const token = generateToken(req.user);
 
-    res.cookie(config.cookieToken, token, { maxAge: 60 * 60 * 1000, httpOnly: true }).status(200).send({ status: 'success' });
+    res.cookie(config.cookieToken, token, { maxAge: 60 * 60 * 1000, httpOnly: true }).status(200).send({ status: 'success', token });
 }
 
 export const getPerfil = async (req, res) => {
@@ -38,7 +38,8 @@ export const getRegistrer = async (req, res) => {
 
 export const postRegister = async (req, res) => {
     sendMail(req.user.email);
-    res.render('login', {});//cambiar un estado(objeto) en usuario registrado o algo por el estilo
+    //res.render('login', {});//cambiar un estado(objeto) en usuario registrado o algo por el estilo
+    res.send({ status: "success" });//cambiar un estado(objeto) en usuario registrado o algo por el estilo
 }
 
 export const getFailRegister = async (req, res) => {
