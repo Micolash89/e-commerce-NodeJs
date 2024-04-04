@@ -9,7 +9,7 @@ export default class ProductDB {
 
     getAll = async () => await productModel.find();
 
-    getOne = async (id) => await productModel.find({ _id: id });
+    getOne = async (id) => await productModel.findOne({ _id: id });
 
     createOne = async (obj) => await productModel.create(obj);
 

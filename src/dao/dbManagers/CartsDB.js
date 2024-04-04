@@ -13,7 +13,7 @@ export default class CartsDB {
 
     getAll = async () => await cartsModel.find().lean();
 
-    getOne = async (id) => await cartsModel.find({ _id: id }).lean();
+    getOne = async (id) => await cartsModel.findOne({ _id: id }).lean();
 
     createOne = async () => await cartsModel.create({ products: [] });
 
@@ -44,8 +44,8 @@ export default class CartsDB {
 
             let cart = await this.getOne(cid);
 
-            if (cart[0]) {
-                let products = cart[0].products || [];
+            if (cart) {
+                let products = cart.products || [];
                 let prd = products.find(obj => obj.product._id == pid);
                 if (prd) {
                     prd.quantity += 1;

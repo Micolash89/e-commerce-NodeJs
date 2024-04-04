@@ -63,8 +63,8 @@ export const addProductToCart = async (req, res) => {
         //validar que el el producto exista en la base de datos
 
         const prod = await productsDB.getOne(productId);
-
-        if (prod && prod[0].owner != req.user.user.email) {
+        console.log(prod);
+        if (prod && prod.owner != req.user.user.email) {
 
             const cart = await cartsDB.addProduct(cartId, productId);
 
