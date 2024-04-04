@@ -4,6 +4,7 @@ import { generateProducts } from '../utils.js';
 import CustomError from '../services/errors/Custom.Error.js';
 import { generateProductErrorInfo } from '../services/errors/info.js';
 import EErrors from '../services/errors/enums.js';
+import ProductDTO from '../dto/ProductDTO.js';
 
 const product = new ProductDB();
 
@@ -41,9 +42,10 @@ export const getProductById = async (req, res) => {
 
 export const postProduct = async (req, res) => {
     try {
-        let newProduct = req.body;//validar las variables
+        let newProduct = ProductDTO.getProduct(req.body);//validar las variables
+        // console.log(req.body);
 
-        if (!newProduct.title || !newProduct.description || !newProduct.code || !newProduct.price || !newProduct.category) {
+        if (!newProduct.title || !newProduct.description || !newProduct.code || !newProduct.price || newProduct.price < 0 || !newProduct.category || !newProduct.stock || newProduct.stock < 0) {
             CustomError.createError({
                 name: "Product Error",
                 cause: generateProductErrorInfo(newProduct),
@@ -56,8 +58,8 @@ export const postProduct = async (req, res) => {
             newProduct.owner = req.user.user.email;
         }
 
+        console.log(newProduct);
         let resp = await product.createOne(newProduct);
-
         res.send({ status: 'ok', message: resp, payload: newProduct });
 
     } catch (error) {
@@ -78,9 +80,6 @@ export const putProduct = async (req, res) => {
             return res.status(404).send({ status: 'error', message: 'product not found' });
         }
 
-        //admin f
-        //premium v v = v
-        // v  f f 
         if (req.user.user.role == 'premium' && prod[0].owner != req.user.user.email) {
             return res.status(403).send({ status: 'error', message: 'you are not the owner of this product' });
         }

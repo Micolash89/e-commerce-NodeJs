@@ -14,7 +14,7 @@ export const getCartsById = async (req, res) => {
 
         let cart = await cartsDB.getOne(cid);
 
-        res.send({ status: 'error', payload: cart });
+        res.send({ status: 'success', payload: cart });
 
     } catch (error) {
 
@@ -29,7 +29,7 @@ export const getCarts = async (req, res) => {
 
         const carts = await cartsDB.getAll();
 
-        res.send({ status: 'error', payload: carts });
+        res.send({ status: 'success', payload: carts });
 
     } catch (error) {
 
@@ -46,7 +46,7 @@ export const postCart = async (req, res) => {
 
         if (!cart) new Error;
 
-        res.send({ status: 'error', payload: cart });
+        res.send({ status: 'success', payload: cart });
 
     } catch (error) {
 
