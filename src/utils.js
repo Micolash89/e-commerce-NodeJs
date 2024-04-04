@@ -168,6 +168,7 @@ export const getCookie = (cookiesString) => {
                 cookies[key] = value;
             }
         });
+        console.log(cookies[config.cookieToken]);
         return cookies[config.cookieToken];
     }
 
