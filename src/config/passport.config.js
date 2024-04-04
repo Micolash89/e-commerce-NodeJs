@@ -1,6 +1,6 @@
 import passport from "passport";
 import local from "passport-local";
-import { createHash, isValidPassword, sendMail } from "../utils.js";
+import { createHash, getCookie, isValidPassword, sendMail } from "../utils.js";
 import UserDB from "../dao/dbManagers/userDB.js";
 import jwt from "passport-jwt";
 import GitHubStrategy from "passport-github2";
@@ -137,7 +137,13 @@ const cookieExtractor = req => {
     let token = null;
     if (req && req.cookies) {
         token = req.cookies[config.cookieToken]
+    } else {
+        if (req && req.rawHeaders) {
+            token = getCookie(req.rawHeaders)
+        }
+
     }
+
     return token
 }
 export default initializePassport;

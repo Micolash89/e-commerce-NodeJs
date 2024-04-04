@@ -128,6 +128,8 @@ sessionRouter.post('/restorepassword/:token', async (req, res) => {
 
 sessionRouter.get('/current', passport.authenticate("jwt", { session: false }), (req, res) => {
 
+
+
     res.send({ status: 'success', payload: req.user });
 
 });

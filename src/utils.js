@@ -153,7 +153,27 @@ export const generateProducts = () => {
     return products;
 }
 
+export const getCookie = (cookiesString) => {
 
+    // let cookie2 = ""
+    // cookie2.includes()
+
+    console.log(cookiesString);
+    const cookies = {};
+    if (cookiesString) {
+
+        cookiesString.forEach((cookie) => {
+            if (cookie.includes(config.cookieToken)) {
+                const [key, value] = cookie.trim().split('=');
+                cookies[key] = value;
+            }
+        });
+        return cookies[config.cookieToken];
+    }
+
+    return null;
+
+}
 
 
 export default __dirname;
