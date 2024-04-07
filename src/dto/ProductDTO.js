@@ -6,7 +6,7 @@ export default class ProductDTO {
             code: product.code,
             price: Number.parseFloat(product.price),
             status: true,
-            stock: Number.parseFloat(product.stock),
+            stock: Number.parseInt(product.stock),
             category: product.category,
         }
     }

@@ -57,23 +57,28 @@ export const postCart = async (req, res) => {
 
 export const addProductToCart = async (req, res) => {
 
+    const quantity = Number.parseInt(req.body.quantity);
+    const productId = req.params.pid;
+    const cartId = req.user.user.cart;
+
+    console.log();
+
     try {
-        const productId = req.params.pid;
-        const cartId = req.user.user.cart;
         //validar que el el producto exista en la base de datos
 
         const prod = await productsDB.getOne(productId);
         console.log(prod);
         if (prod && prod.owner != req.user.user.email) {
 
-            const cart = await cartsDB.addProduct(cartId, productId);
+            for (let i = 0; i < quantity; i++) {
+                await cartsDB.addProduct(cartId, productId);
+            }
 
-            return res.send({ payload: cart })
+            return res.send({ status: "success", quantity })
 
         } else {
             return res.status(403).send({ status: 'error', message: 'you are the owner of this product' });
         }
-
 
 
     } catch (error) {
@@ -188,12 +193,12 @@ export const purchaseCart = async (req, res) => {
         let itemsLeft = [];
 
         // Utiliza Promise.all para esperar a que todas las operaciones de productos se completen
-        await Promise.all(cart[0].products.map(async (item) => {
+        await Promise.all(cart.products.map(async (item) => {
             let product = await productsDB.getOne(item.product._id);
-            if (product[0] && product[0].stock >= item.quantity) {
-                product[0].stock -= item.quantity;
+            if (product && product.stock >= item.quantity) {
+                product.stock -= item.quantity;
                 total += item.product.price * item.quantity;
-                await productsDB.updateuno(item.product._id, product[0]);
+                await productsDB.updateuno(item.product._id, product);
             } else {
                 itemsLeft.push(item);
                 console.log(`No hay suficiente stock de ${item.product.title}, se agregará a la cola`);

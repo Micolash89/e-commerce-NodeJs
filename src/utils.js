@@ -158,7 +158,7 @@ export const getCookie = (cookiesString) => {
     // let cookie2 = ""
     // cookie2.includes()
 
-    console.log(cookiesString);
+    // console.log(cookiesString);
     const cookies = {};
     if (cookiesString) {
 
@@ -168,7 +168,7 @@ export const getCookie = (cookiesString) => {
                 cookies[key] = value;
             }
         });
-        console.log(cookies[config.cookieToken]);
+        // console.log(cookies[config.cookieToken]);
         return cookies[config.cookieToken];
     }
 

@@ -73,13 +73,13 @@ export default class CartsDB {
 
             if (cart) {
 
-                let products = cart[0].products;
+                let products = cart.products;
 
                 products = products.map(obj => {
                     if (obj.product._id != pid) { return obj }
                 });
 
-                return await cartsModel.updateOne({ _id: cid }, cart[0]);
+                return await cartsModel.updateOne({ _id: cid }, cart);
             } else {
                 return { status: "error", error: "cart not found" }
             }

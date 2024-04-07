@@ -139,7 +139,7 @@ const cookieExtractor = req => {
         token = req.cookies[config.cookieToken]
     } else {
         if (req && req.rawHeaders) {
-            console.log(req);
+            // console.log(req);
             token = getCookie(req.rawHeaders)
         }
 
