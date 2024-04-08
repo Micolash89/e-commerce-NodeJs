@@ -22,8 +22,8 @@ import cors from 'cors';
 const port = config.port || 8080;
 
 const app = express();
-// app.use(cors({ origin: config.all, methods: ['GET', 'POST', 'PUT', 'DELETE'], credentials: true }));
-app.use(cors({ origin: ["http://localhost:5173", "https://micolash89.github.io"], methods: ['GET', 'POST', 'PUT', 'DELETE'], credentials: true }));
+app.use(cors({ origin: config.all.split(","), methods: ['GET', 'POST', 'PUT', 'DELETE'], credentials: true }));
+// app.use(cors({ origin: ["http://localhost:5173", "https://micolash89.github.io"], methods: ['GET', 'POST', 'PUT', 'DELETE'], credentials: true }));
 mongoose.connect(config.urlMongo);
 
 //cookie
