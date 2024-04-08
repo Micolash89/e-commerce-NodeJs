@@ -116,7 +116,7 @@ const initializePassport = () => {
         secretOrKey: config.secretKey
     }, async (jwt_payload, done) => {
         try {
-
+            console.log("dentre jwt");
             return done(null, jwt_payload);
         } catch (err) {
             return done(err);
@@ -139,12 +139,15 @@ const cookieExtractor = req => {
         token = req.cookies[config.cookieToken]
     } else {
         if (req && req.rawHeaders) {
-            // console.log(req);
             token = getCookie(req.rawHeaders)
+            console.log("raw", req.rawHeaders);
+            console.log("------------------------------------------------------------");
         }
 
     }
-
+    console.log("token", token);
+    console.log("------------------------------------------------------------");
+    // console.log(req);
     return token
 }
 export default initializePassport;

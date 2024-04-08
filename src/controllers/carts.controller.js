@@ -92,6 +92,8 @@ export const deleteProduct = async (req, res) => {
 
         const { pid } = req.params;
         const cid = req.user.user.cart;
+        console.log("pid", pid);
+        console.log("cid", cid);
 
         const cart = await cartsDB.deleteProduct(cid, pid);
 
