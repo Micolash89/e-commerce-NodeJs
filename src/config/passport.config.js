@@ -135,16 +135,16 @@ const initializePassport = () => {
 
 const cookieExtractor = req => {
     let token = null;
-    if (req && req.cookie) {
+    if (req && req.cookies) {
         token = req.cookies[config.cookieToken]
-    } else {
-        if (req && req.rawHeaders) {
+        if (!token && req.rawHeaders) {
             token = getCookie(req.rawHeaders)
-            console.log("raw", req.rawHeaders);
-            console.log("------------------------------------------------------------");
         }
 
     }
+
+
+
     console.log("token", token);
     console.log("------------------------------------------------------------");
     // console.log(req);

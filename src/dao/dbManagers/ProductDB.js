@@ -19,6 +19,6 @@ export default class ProductDB {
 
     remove = async (id) => await productModel.deleteOne({ _id: id });
 
-
+    getmyProducts = async (email) => await productModel.find({ owner: email }).lean();
 
 }
