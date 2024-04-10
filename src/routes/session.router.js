@@ -68,7 +68,8 @@ sessionRouter.get('/changerole', passport.authenticate("jwt", { session: false }
 sessionRouter.post('/restorepassword', async (req, res) => {
 
     try {
-        const { email } = req.body;
+        const { email, url } = req.body;
+
 
         const user = await userDB.findEmail(email);
 
@@ -76,9 +77,9 @@ sessionRouter.post('/restorepassword', async (req, res) => {
 
             const token = generateTokenRestore(user);
 
-            sendMailRestore(user.email, token);
+            sendMailRestore(user.email, token, url);
 
-            res.render('login', { style: 'login.css' });
+            res.send({ status: "success", token });
 
         }
 
@@ -97,7 +98,8 @@ sessionRouter.get('/restorepassword/:token', async (req, res) => {
 
     if (user) {
 
-        res.render('RestorePasswordToken', { style: 'login.css', id: user._id, token });//ver el token
+        // res.render('RestorePasswordToken', { style: 'login.css', id: user._id, token });//ver el token
+        res.send({ estatus: "succes", payload: { id: user._id, token } });//ver el token
     } else {
         res.send({ status: "error", message: 'Invalid link or expired.' });
     }
@@ -120,7 +122,8 @@ sessionRouter.post('/restorepassword/:token', async (req, res) => {
 
         const result = await userDB.updateUser(user);
         console.log(result);
-        res.render('login', { style: 'login.css' });
+        // res.render('login', { style: 'login.css' });
+        res.send({ estatus: "success", payload: result });
     }
 
 });

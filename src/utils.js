@@ -108,7 +108,7 @@ export const sendMail = async (email) => {
     })
 
 }
-export const sendMailRestore = async (email, token) => {
+export const sendMailRestore = async (email, token, url) => {
 
     await transporter.sendMail({
         from: `E-comerce`,// sender address cambiar para mas adelante
@@ -116,9 +116,10 @@ export const sendMailRestore = async (email, token) => {
         subject: 'Restaurar password ✔', //cambiar titulo
         html: `
         <div>
-            <a href="http://localhost:8080/api/sessions/restorepassword/${token}">Click aqui para restaurar</a>
+        <a href="${url}/restorepassword/${token}">Click aqui para restaurar</a>
         </div>
         `,//cambiar html
+        // <a href="http://localhost:8080/api/sessions/restorepassword/${token}">Click aqui para restaurar</a>
         // attachments: [{
         //     filename: 'perrito1.jpg',//nombre del archivo guardado en tu carpeta images
         //     path: __dirname + '/img/perrito1.jpg',//foto del ecomerce
