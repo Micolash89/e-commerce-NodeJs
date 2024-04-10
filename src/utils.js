@@ -116,7 +116,7 @@ export const sendMailRestore = async (email, token, url) => {
         subject: 'Restaurar password ✔', //cambiar titulo
         html: `
         <div>
-        <a href="${url}/restorepassword/${token}">Click aqui para restaurar</a>
+        <a href="${url}/e-commerce-Coder-FrontEnd/#/restorepassword/${token}">Click aqui para restaurar</a>
         </div>
         `,//cambiar html
         // <a href="http://localhost:8080/api/sessions/restorepassword/${token}">Click aqui para restaurar</a>

@@ -68,8 +68,9 @@ sessionRouter.get('/changerole', passport.authenticate("jwt", { session: false }
 sessionRouter.post('/restorepassword', async (req, res) => {
 
     try {
-        const { email, url } = req.body;
+        const { email } = req.body;
 
+        const url = req.rawHeaders.find(e => e.startsWith("http"))
 
         const user = await userDB.findEmail(email);
 

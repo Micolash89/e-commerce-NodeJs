@@ -143,11 +143,6 @@ const cookieExtractor = req => {
 
     }
 
-
-
-    console.log("token", token);
-    console.log("------------------------------------------------------------");
-    // console.log(req);
     return token
 }
 export default initializePassport;
