@@ -13,19 +13,15 @@ export const getProduct = async (req, res) => {
     let limit = parseInt(req.query.limit) || 5;
     let page = parseInt(req.query.page) || 1;
     let sort = parseInt(req.query.sort) || 1;
-    //let query = req.query.query;
 
     const products = await productModel.paginate({}, { page, limit, sort: { title: sort }, lean: true })
-    products.prevLink = products.hasPrevPage ? `http://localhost:8080/api/products?page=${products.prevPage}` : '';
-    products.nextLink = products.hasNextPage ? `http://localhost:8080/api/products?page=${products.nextPage}` : '';
+    products.prevLink = products.hasPrevPage ? `/api/products?page=${products.prevPage}` : '';
+    products.nextLink = products.hasNextPage ? `/api/products?page=${products.nextPage}` : '';
     products.isValid = !(page <= 0 || page > products.totalPages);
-
-    products.user = req.user?.user || { first_name: "no login" }
 
     //res.render("products", products);
     res.send({ status: 'ok', payload: products });
 }
-
 
 export const getProductById = async (req, res) => {
     try {
@@ -34,6 +30,20 @@ export const getProductById = async (req, res) => {
         let resp = await product.getOne(id);
 
         res.send({ status: 'ok', payload: resp });
+
+    } catch (error) {
+        res.status(500).send({ status: "error", message: error });
+    }
+}
+
+export const customSearch = async (req, res) => {
+    try {
+        let { search } = req.query;
+
+        console.log("dentre" + search);
+        const response = await product.customSearch(search);
+        console.log("custom search", response);
+        res.send({ status: 'ok', payload: response });
 
     } catch (error) {
         res.status(500).send({ status: "error", message: error });
@@ -106,7 +116,10 @@ export const deleteProduct = async (req, res) => {
             return res.status(403).send({ status: 'error', message: 'you are not the owner of this product' });
         }
 
-        let resp = await product.remove(pid);
+        // let resp = await product.remove(pid);
+        prod.status = false;
+        let resp = await product.modificate(pid, prod);
+
 
         res.send({ status: 'ok', message: resp, payload: resp });
     } catch (error) {
@@ -126,38 +139,22 @@ export const getmockingproducts = async (req, res) => {
 
 export const getmyProducts = async (req, res) => {
 
-    // const newProduct  = req.body ;
-
-
     try {
 
         const user = req.user.user;
+
         let uemail = user.email;
-        console.log("user", user);
 
-        if (user.role == 'admin') {
-            uemail = "admin";
-        } else {
-            uemail = user.email;
-        }
-
+        uemail = user.role == 'admin' ? "admin" : user.email;
 
         // const uemail = req.user.user.email;
-        console.log("email", uemail);
-
         const products = await product.getmyProducts(uemail);
-        console.log("product", products);
 
         res.send({ status: "success", payload: products });
 
     } catch (error) {
-
-    } finally {
+        res.status(500).send({ status: "error", payload: error });
 
     }
-
-
-
-
 
 }

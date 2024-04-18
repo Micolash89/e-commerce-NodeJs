@@ -5,4 +5,6 @@ export default class TicketDB {
 
     createTiket = async (obj) => await ticketModel.create(obj)
 
+    getTiket = async (obj) => await ticketModel.find({ purchaser: obj.email })
+
 }

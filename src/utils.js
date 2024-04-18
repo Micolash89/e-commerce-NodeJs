@@ -108,11 +108,11 @@ export const sendMail = async (email) => {
     })
 
 }
-export const sendMailRestore = async (email, token, url) => {
+export const sendMailRestore = async (user, token, url) => {
 
     await transporter.sendMail({
         from: `E-comerce`,// sender address cambiar para mas adelante
-        to: email,//req.user.user.email
+        to: user.email,//req.user.user.email
         subject: 'Restaurar password ✔', //cambiar titulo
         html: `
         <div>

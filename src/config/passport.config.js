@@ -10,6 +10,7 @@ import CustomError from "../services/errors/Custom.Error.js";
 import { generateUserErrorInfo } from "../services/errors/info.js";
 import EErrors from "../services/errors/enums.js";
 import { logger } from './../logger.js';
+import UserDTO from "../dto/UserDTO.js";
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
@@ -71,14 +72,8 @@ const initializePassport = () => {
 
             const cart = await cartDB.createOne();
 
-            const newUser = {
-                first_name,
-                last_name,
-                email,
-                age,
-                cart: cart._id,
-                password: createHash(password)
-            }
+            const newUser = UserDTO.getUser(first_name, last_name, email, age, password, cart);
+
             req.user = newUser;
             let result = await userDB.createOne(newUser);
             return done(null, result);

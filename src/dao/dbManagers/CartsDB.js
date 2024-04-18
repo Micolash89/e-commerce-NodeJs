@@ -39,6 +39,7 @@ export default class CartsDB {
 
     }
 
+    /*para agregar un producto logica del tp*/
     addProduct = async (cid, pid) => {
         try {
 
@@ -51,6 +52,34 @@ export default class CartsDB {
                     prd.quantity += 1;
                 } else {
                     products.push({ product: pid, quantity: 1 })
+                }
+                cart.products = products;
+                const result = await this.updateUno(cid, products);
+
+                return result;
+
+            } else {
+                return { status: "error", error: "cart not found" }
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    /*cambio de requisitos*/
+    addManyProduct = async (cid, pid, quan) => {
+        try {
+
+            let cart = await this.getOne(cid);
+
+            if (cart) {
+                let products = cart.products || [];
+                let prd = products.find(obj => obj.product._id == pid);
+                if (prd) {
+                    prd.quantity += quan;
+                } else {
+                    products.push({ product: pid, quantity: quan })
                 }
                 cart.products = products;
                 const result = await this.updateUno(cid, products);

@@ -37,7 +37,6 @@ sessionRouter.get('/failregistrar', getFailRegister);
 /*LOOUT*/
 sessionRouter.get('/logout', getLogOut);
 
-
 sessionRouter.get('/restorepassword', async (req, res) => {
 
     res.render('RestorePassword', { style: 'login.css' });
@@ -78,7 +77,9 @@ sessionRouter.post('/restorepassword', async (req, res) => {
 
             const token = generateTokenRestore(user);
 
-            sendMailRestore(user.email, token, url);
+            console.log(user);
+
+            sendMailRestore(user, token, url);
 
             res.send({ status: "success", token });
 
@@ -109,22 +110,32 @@ sessionRouter.get('/restorepassword/:token', async (req, res) => {
 
 sessionRouter.post('/restorepassword/:token', async (req, res) => {
 
-    const { password, confirm_password, id } = req.body;
     // const token = req.params.token;
 
+    try {
+        const { password, confirm_password } = req.body;
+        const { token } = req.params;
 
+        const userToken = extractorTokenRestore(token);
 
-    if (password === confirm_password) {
+        if (password === confirm_password) {
 
-        const user = {
-            _id: id,
-            password: createHash(password)
+            const user = {
+                _id: userToken._id,
+                password: createHash(password)
+            }
+
+            const result = await userDB.updateUser(user);
+            console.log(result);
+            // res.render('login', { style: 'login.css' });
+            return res.send({ estatus: "success", payload: result });
+        } else {
+            throw new Error("Passwords do not match.", 401);
         }
 
-        const result = await userDB.updateUser(user);
-        console.log(result);
-        // res.render('login', { style: 'login.css' });
-        res.send({ estatus: "success", payload: result });
+    } catch (error) {
+
+        return res.send({ status: "error", message: error });
     }
 
 });

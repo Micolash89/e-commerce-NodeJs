@@ -21,4 +21,6 @@ export default class ProductDB {
 
     getmyProducts = async (email) => await productModel.find({ owner: email }).lean();
 
+    customSearch = async (search) => await productModel.find({ $or: [{ title: { $regex: search, $options: "i" } }, { description: { $regex: search, $options: "i" } }, { category: { $regex: search, $options: "i" } }] })
+
 }

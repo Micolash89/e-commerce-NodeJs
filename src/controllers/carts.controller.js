@@ -1,6 +1,7 @@
 import CartsDB from "../dao/dbManagers/CartsDB.js";
 import ProductDB from "../dao/dbManagers/ProductDB.js";
 import TicketDB from '../dao/dbManagers/TicketDB.js'
+import TicketDTO from "../dto/TicketDTO.js";
 
 
 const cartsDB = new CartsDB();
@@ -13,6 +14,10 @@ export const getCartsById = async (req, res) => {
         let cid = req.user.user.cart;
 
         let cart = await cartsDB.getOne(cid);
+
+        // enviar los productos que tienen estado true
+
+        //cart = cart.filter((item) => item.status == true);
 
         res.send({ status: 'success', payload: cart });
 
@@ -61,23 +66,21 @@ export const addProductToCart = async (req, res) => {
     const productId = req.params.pid;
     const cartId = req.user.user.cart;
 
-    console.log();
-
     try {
-        //validar que el el producto exista en la base de datos
 
         const prod = await productsDB.getOne(productId);
-        console.log(prod);
-        if (prod && prod.owner != req.user.user.email) {
 
-            for (let i = 0; i < quantity; i++) {
-                await cartsDB.addProduct(cartId, productId);
-            }
+        if (prod && prod.owner != req.user.user.email && prod.status) {
+
+            // for (let i = 0; i < quantity; i++) {
+            //     await cartsDB.addProduct(cartId, productId);
+            // }
+            await cartsDB.addManyProduct(cartId, productId, quantity);
 
             return res.send({ status: "success", quantity })
 
         } else {
-            return res.status(403).send({ status: 'error', message: 'you are the owner of this product' });
+            return res.status(403).send({ status: 'error', message: 'you are the owner of this product or the product does exist' });
         }
 
 
@@ -92,8 +95,6 @@ export const deleteProduct = async (req, res) => {
 
         const { pid } = req.params;
         const cid = req.user.user.cart;
-        console.log("pid", pid);
-        console.log("cid", cid);
 
         const cart = await cartsDB.deleteProduct(cid, pid);
 
@@ -197,29 +198,32 @@ export const purchaseCart = async (req, res) => {
         // Utiliza Promise.all para esperar a que todas las operaciones de productos se completen
         await Promise.all(cart.products.map(async (item) => {
             let product = await productsDB.getOne(item.product._id);
-            if (product && product.stock >= item.quantity) {
+            if (product && product.stock >= item.quantity && item.status) {
                 product.stock -= item.quantity;
                 total += item.product.price * item.quantity;
                 await productsDB.updateuno(item.product._id, product);
             } else {
                 itemsLeft.push(item);
-                console.log(`No hay suficiente stock de ${item.product.title}, se agregará a la cola`);
+                console.log(`No hay suficiente stock de ${item.product.title}, se agregará a la cola o el producto se dio de baja`);
             }
         }));
 
         let newTicket;
-        if (total != 0) {
-            const result = await cartsDB.updateUno(cid, itemsLeft);
-            newTicket = {
-                code: Date.now().toString(),
-                purchase_datetime: Date.now(),
-                amount: total,
-                purchaser: req.user.user.email
-            }
+        if (total == 0) {
+            return res.send({ status: 'error', message: 'No hay productos en el carrito' });
         }
+        const result = await cartsDB.updateUno(cid, itemsLeft);
+        // newTicket = {
+        //     code: Date.now().toString(),
+        //     purchase_datetime: Date.now(),
+        //     amount: total,
+        //     purchaser: req.user.user.email
+        // }
+        newTicket = TicketDTO.getTicket(total, req.user.user.email)
+
         const ticket = await ticketDB.createTiket(newTicket);
 
-        res.send({ status: 'ok', payload: ticket });
+        return res.send({ status: 'ok', payload: ticket });
 
     } catch (error) {
 
