@@ -50,6 +50,20 @@ export const customSearch = async (req, res) => {
     }
 }
 
+export const findCategories = async (req, res) => {
+    try {
+        //let { search } = req.query;
+
+
+        const response = await product.findCategories();
+
+        res.send({ status: 'ok', payload: response });
+
+    } catch (error) {
+        res.status(500).send({ status: "error", message: error });
+    }
+}
+
 export const postProduct = async (req, res) => {
     try {
         let newProduct = ProductDTO.getProduct(req.body);
