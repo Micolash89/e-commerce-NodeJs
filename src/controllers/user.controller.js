@@ -1,5 +1,9 @@
 import config from "../config/config.js";
+import UserDB from "../dao/dbManagers/userDB.js";
+import UserDTO from "../dto/UserDTO.js";
 import { generateToken, sendMail } from "../utils.js";
+
+const userDB = new UserDB()
 
 export const getLogin = async (req, res) => {
     try {
@@ -48,6 +52,30 @@ export const getFailRegister = async (req, res) => {
 }
 
 export const getLogOut = (req, res) => {
-    res.clearCookie(config.cookieToken).redirect('login');
+    res.clearCookie(config.cookieToken)
+    res.send({ status: "ok", payload: { message: "logout success" } });
+
 }
 
+
+export const putEditProfile = (req, res) => {
+
+    const { uid } = req.params;
+
+    const newUser = UserDTO.getUserModify(req.body);
+
+    const user = userDB.getOneId(uid);
+
+    try {
+
+        if (!user) return res.status(404).send({ status: "error", message: "user not found" });
+
+        const resp = userDB.updateUno(uid, newUser);
+
+        res.send({ status: "success", payload: resp });
+    } catch (error) {
+        res.status(500).send({ satus: "error", message: error });
+    }
+
+
+}

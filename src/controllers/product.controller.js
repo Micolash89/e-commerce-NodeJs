@@ -92,9 +92,9 @@ export const postProduct = async (req, res) => {
 export const putProduct = async (req, res) => {
     try {
 
-        let { pid } = req.params;
+        const { pid } = req.params;
 
-        let productNew = req.body;
+        const productNew = req.body;
 
         let prod = await product.getOne(pid);
         if (!prod) {
@@ -106,7 +106,7 @@ export const putProduct = async (req, res) => {
             return res.status(403).send({ status: 'error', message: 'you are not the owner of this product' });
         }
 
-        let resp = await product.modificate(pid, productNew);
+        const resp = await product.modificate(pid, productNew);
 
         res.send({ status: 'ok', message: resp, payload: resp });
     } catch (error) {

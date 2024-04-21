@@ -4,9 +4,10 @@ import { authToken, createHash, extractorTokenRestore, generateToken, generateTo
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import UserDB from '../dao/dbManagers/userDB.js';
-import { getFailLogin, getFailRegister, getGithubCallback, getLogOut, getLogin, getPerfil, getRegistrer, postLogin, postRegister } from '../controllers/user.controller.js';
+import { getFailLogin, getFailRegister, getGithubCallback, getLogOut, getLogin, getPerfil, getRegistrer, putEditProfile, postLogin, postRegister } from '../controllers/user.controller.js';
 import { getGithub } from '../controllers/user.controller.js';
 import config from '../config/config.js';
+import UserDTO from '../dto/UserDTO.js';
 
 const sessionRouter = Router();
 
@@ -43,7 +44,12 @@ sessionRouter.get('/restorepassword', async (req, res) => {
 
 });
 
-/**/
+/*editar perfil*/
+
+sessionRouter.put('/editprofile/:uid', passport.authenticate("jwt", { session: false }), putEditProfile);
+
+
+/*cambiar role*/
 
 sessionRouter.get('/changerole', passport.authenticate("jwt", { session: false }), async (req, res) => {
 
@@ -143,9 +149,11 @@ sessionRouter.post('/restorepassword/:token', async (req, res) => {
 
 sessionRouter.get('/current', passport.authenticate("jwt", { session: false }), (req, res) => {
 
+    const user = UserDTO.getUserLogin(req.user.user);
 
 
-    res.send({ status: 'success', payload: req.user });
+
+    res.send({ status: 'success', payload: { user: user } });
 
 });
 
