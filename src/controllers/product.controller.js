@@ -40,9 +40,8 @@ export const customSearch = async (req, res) => {
     try {
         let { search } = req.query;
 
-        console.log("dentre" + search);
         const response = await product.customSearch(search);
-        console.log("custom search", response);
+
         res.send({ status: 'ok', payload: response });
 
     } catch (error) {
@@ -52,8 +51,6 @@ export const customSearch = async (req, res) => {
 
 export const findCategories = async (req, res) => {
     try {
-        //let { search } = req.query;
-
 
         const response = await product.findCategories();
 
@@ -80,7 +77,6 @@ export const postProduct = async (req, res) => {
             newProduct.owner = req.user.user.email;
         }
 
-
         let resp = await product.createOne(newProduct);
         res.send({ status: 'ok', message: resp, payload: newProduct });
 
@@ -94,9 +90,10 @@ export const putProduct = async (req, res) => {
 
         const { pid } = req.params;
 
-        const productNew = req.body;
 
         let prod = await product.getOne(pid);
+        const productNew = ProductDTO.getModifyProduct(req.body);
+
         if (!prod) {
 
             return res.status(404).send({ status: 'error', message: 'product not found' });
@@ -133,7 +130,6 @@ export const deleteProduct = async (req, res) => {
         // let resp = await product.remove(pid);
         prod.status = false;
         let resp = await product.modificate(pid, prod);
-
 
         res.send({ status: 'ok', message: resp, payload: resp });
     } catch (error) {

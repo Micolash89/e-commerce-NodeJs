@@ -1,8 +1,6 @@
 import { Router } from 'express';
-//import UserDB from './../DAO/managersDB/userDB.js';
-import { authToken, createHash, extractorTokenRestore, generateToken, generateTokenRestore, isValidPassword, sendMailRestore } from '../utils.js';
+import { createHash, extractorTokenRestore, generateToken, generateTokenRestore, sendMailRestore } from '../utils.js';
 import passport from 'passport';
-import jwt from 'jsonwebtoken';
 import UserDB from '../dao/dbManagers/userDB.js';
 import { getFailLogin, getFailRegister, getGithubCallback, getLogOut, getLogin, getPerfil, getRegistrer, putEditProfile, postLogin, postRegister } from '../controllers/user.controller.js';
 import { getGithub } from '../controllers/user.controller.js';
@@ -150,8 +148,6 @@ sessionRouter.post('/restorepassword/:token', async (req, res) => {
 sessionRouter.get('/current', passport.authenticate("jwt", { session: false }), (req, res) => {
 
     const user = UserDTO.getUserLogin(req.user.user);
-
-
 
     res.send({ status: 'success', payload: { user: user } });
 

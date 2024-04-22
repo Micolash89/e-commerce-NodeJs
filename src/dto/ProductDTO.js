@@ -1,13 +1,26 @@
 export default class ProductDTO {
     static getProduct = (product) => {
         return {
-            title: product.title,
-            description: product.description,
+            title: product.title.charAt(0).toUpperCase() + product.title.slice(1),
+            description: product.description.charAt(0).toUpperCase() + product.description.slice(1),
             code: product.code,
             price: Number.parseFloat(product.price),
             status: true,
             stock: Number.parseInt(product.stock),
-            category: product.category,
+            category: product.category.charAt(0).toUpperCase() + product.category.slice(1),
+            url: product.url
+        }
+    }
+    static getModifyProduct = (product) => {
+        return {
+            title: product.title.charAt(0).toUpperCase() + product.title.slice(1),
+            description: product.description.charAt(0).toUpperCase() + product.description.slice(1),
+            code: product.code,
+            price: Number.parseFloat(product.price),
+            stock: Number.parseInt(product.stock),
+            status: true,
+            category: product.category.charAt(0).toUpperCase() + product.category.slice(1),
+            url: product.url
         }
     }
 }
