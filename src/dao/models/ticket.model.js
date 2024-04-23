@@ -15,7 +15,22 @@ const ticketSchema = new mongoose.Schema({
     },
     purchaser: {
         type: String
+    },
+    products: {
+        type: [{
+            product: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'product'
+            },
+            quantity: Number
+        }],
+        default: [],
+        required: true
     }
+});
+
+ticketSchema.pre('find', function () {
+    this.populate('products.product');
 });
 
 const ticketModel = mongoose.model(ticketCollection, ticketSchema);

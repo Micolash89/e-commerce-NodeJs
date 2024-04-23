@@ -190,17 +190,19 @@ export const purchaseCart = async (req, res) => {
         const cart = await cartsDB.getOne(cid);
 
         if (!cart) {
-            res.status(500).send({ status: 'error', message: error });
+            res.status(500).send({ status: 'error en el carrito', message: error });
         }
         let total = 0;
         let itemsLeft = [];
-
+        let productPurchase = [];
         // Utiliza Promise.all para esperar a que todas las operaciones de productos se completen
         await Promise.all(cart.products.map(async (item) => {
+
             let product = await productsDB.getOne(item.product._id);
-            if (product && product.stock >= item.quantity && item.status) {
+            if (product && product.stock >= item.quantity && product.status) {
                 product.stock -= item.quantity;
                 total += item.product.price * item.quantity;
+                productPurchase.push(item.product._id);
                 await productsDB.updateuno(item.product._id, product);
             } else {
                 itemsLeft.push(item);
@@ -212,22 +214,16 @@ export const purchaseCart = async (req, res) => {
         if (total == 0) {
             return res.send({ status: 'error', message: 'No hay productos en el carrito' });
         }
-        const result = await cartsDB.updateUno(cid, itemsLeft);
-        // newTicket = {
-        //     code: Date.now().toString(),
-        //     purchase_datetime: Date.now(),
-        //     amount: total,
-        //     purchaser: req.user.user.email
-        // }
-        newTicket = TicketDTO.getTicket(total, req.user.user.email)
 
+        const result = await cartsDB.updateUno(cid, itemsLeft);
+        newTicket = TicketDTO.getTicket(total, req.user.user.email, productPurchase)
         const ticket = await ticketDB.createTiket(newTicket);
 
-        return res.send({ status: 'ok', payload: ticket });
+        return res.send({ status: 'ok', payload: ticket, productsLeft: itemsLeft });
 
     } catch (error) {
 
-        res.status(500).send({ status: 'error', message: error });
+        res.status(500).send({ status: ' error en el try', message: error });
 
     }
 }

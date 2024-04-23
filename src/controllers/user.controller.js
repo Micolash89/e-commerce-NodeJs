@@ -15,8 +15,9 @@ export const getLogin = async (req, res) => {
 
 export const postLogin = async (req, res) => {
     const token = generateToken(req.user);
+    const user = UserDTO.getUserLogin(req.user);
 
-    res.cookie(config.cookieToken, token, { maxAge: 60 * 60 * 1000, httpOnly: true }).status(200).send({ status: 'success', token });
+    res.cookie(config.cookieToken, token, { maxAge: 60 * 60 * 1000, httpOnly: true }).status(200).send({ status: 'success', token, user });
 }
 
 export const getPerfil = async (req, res) => {
@@ -68,7 +69,7 @@ export const putEditProfile = (req, res) => {
 
     try {
 
-        if (!user) return res.status(404).send({ status: "error", message: "user not found" });
+        if (!user || newUser.age < 0 || newUser.age > 100 || newUser.first_name.length < 3 || newUser.last_name.length < 3 || newUser.email.length < 3) return res.status(404).send({ status: "error", message: "user not found" });
 
         const resp = userDB.updateUno(uid, newUser);
 
