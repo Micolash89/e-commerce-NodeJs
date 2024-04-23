@@ -1,7 +1,7 @@
 import passport from "passport";
 import local from "passport-local";
 import { createHash, getCookie, isValidPassword, sendMail } from "../utils.js";
-import UserDB from "../dao/dbManagers/userDB.js";
+import UserDB from "../dao/dbManagers/UserDB.js";
 import jwt from "passport-jwt";
 import GitHubStrategy from "passport-github2";
 import CartsDB from './../dao/dbManagers/CartsDB.js';
