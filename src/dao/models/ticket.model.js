@@ -33,5 +33,9 @@ ticketSchema.pre('find', function () {
     this.populate('products.product');
 });
 
+ticketSchema.pre('findOne', function () {
+    this.populate('products.product');
+});
+
 const ticketModel = mongoose.model(ticketCollection, ticketSchema);
 export default ticketModel;

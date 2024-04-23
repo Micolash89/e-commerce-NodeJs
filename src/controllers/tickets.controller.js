@@ -18,3 +18,19 @@ export const getAllTickets = async (req, res) => {
 
 
 }
+
+export const getOneTicket = async (req, res) => {
+
+    try {
+
+        const { tid } = req.params;
+
+        const ticket = await ticketDB.getOneTicket(tid);
+
+        res.send({ status: "success", payload: ticket });
+
+    } catch (error) {
+        res.status(500).send({ status: "error", message: error })
+    }
+
+}

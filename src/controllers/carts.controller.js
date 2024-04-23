@@ -202,7 +202,7 @@ export const purchaseCart = async (req, res) => {
             if (product && product.stock >= item.quantity && product.status) {
                 product.stock -= item.quantity;
                 total += item.product.price * item.quantity;
-                productPurchase.push(item.product._id);
+                productPurchase.push({ product: item.product._id, quantity: item.quantity });
                 await productsDB.updateuno(item.product._id, product);
             } else {
                 itemsLeft.push(item);
