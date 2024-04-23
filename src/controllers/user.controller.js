@@ -1,5 +1,5 @@
 import config from "../config/config.js";
-import UserDB from "../dao/dbManagers/UserDB.js";
+import UserDB from "../dao/dbManagers/userDB.js";
 import UserDTO from "../dto/UserDTO.js";
 import { generateToken, sendMail } from "../utils.js";
 
