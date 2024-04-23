@@ -1,6 +1,4 @@
 import { messageModel } from "../models/message.model.js";
-//import { messageModel } from './../models/message.model.js';
-
 
 export default class MessageDB {
 

@@ -1,15 +1,10 @@
-import mongoose from "mongoose";
 import { cartsModel } from "../models/carts.model.js";
-//import ProductDB from './ProductDB';
-
 
 export default class CartsDB {
 
     constructor() {
 
     }
-
-    //getAll = async () => await cartsModel.find();
 
     getAll = async () => await cartsModel.find().lean();
 

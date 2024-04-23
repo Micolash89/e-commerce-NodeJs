@@ -1,5 +1,3 @@
-
-
 export default class TicketDTO {
     static getTicket = (total, email, products) => {
         return {

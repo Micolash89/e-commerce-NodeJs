@@ -16,6 +16,7 @@ import { addLogger } from "./logger.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
 import cors from 'cors';
+import ticketsRouter from "./routes/tickets.router.js";
 
 
 
@@ -73,5 +74,6 @@ app.use('/chat', messageRouter);
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/sessions', sessionRouter);
+app.use('/api/tickets', ticketsRouter);
 
 const server = app.listen(port, () => console.log("conexion"));
