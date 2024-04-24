@@ -1,7 +1,7 @@
 import config from "../config/config.js";
 import UserDB from "../dao/dbManagers/userDB.js";
 import UserDTO from "../dto/UserDTO.js";
-import { generateToken, sendMail } from "../utils.js";
+import { createHash, extractorTokenRestore, generateToken, generateTokenRestore, sendMail, sendMailRestore } from "../utils.js";
 
 const userDB = new UserDB()
 
@@ -42,7 +42,8 @@ export const getRegistrer = async (req, res) => {
 }
 
 export const postRegister = async (req, res) => {
-    sendMail(req.user.email);
+    const url = req.rawHeaders.find(e => e.startsWith("http"))
+    sendMail(req.user.email, url);
 
     res.send({ status: "success", message: "user register success" });
 }
@@ -101,15 +102,13 @@ export const postRestorePassword = async (req, res) => {
     try {
         const { email } = req.body;
 
-        const url = req.rawHeaders.find(e => e.startsWith("http"))
+        const url = req.rawHeaders.find(e => e.startsWith("http"));
 
         const user = await userDB.findEmail(email);
 
         if (user) {
 
             const token = generateTokenRestore(user);
-
-            console.log(user);
 
             sendMailRestore(user, token, url);
 
@@ -148,7 +147,7 @@ export const postRestorePasswordToken = async (req, res) => {
 
         const userToken = extractorTokenRestore(token);
 
-        if (password === confirm_password) {
+        if (password == confirm_password) {
 
             const user = {
                 _id: userToken._id,
@@ -156,6 +155,7 @@ export const postRestorePasswordToken = async (req, res) => {
             }
 
             const result = await userDB.updateUser(user);
+
             return res.send({ estatus: "success", payload: result });
         } else {
             throw new Error("Passwords do not match.", 401);
@@ -163,7 +163,7 @@ export const postRestorePasswordToken = async (req, res) => {
 
     } catch (error) {
 
-        return res.send({ status: "error", message: error });
+        return res.status(401).send({ status: "error", message: error });
     }
 
 };

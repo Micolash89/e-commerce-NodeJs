@@ -16,7 +16,7 @@ export default class UserDB {
 
     existEmail = async (email, password) => await userModel.exists({ email: email });
 
-    updateUser = async (obj) => await userModel.updateOne({ _id: obj._id }, obj);
+    updateUser = async (obj) => await userModel.updateOne({ _id: obj._id }, { $set: { password: obj.password } });
 
     existEmailPass = async (email, password) => await userModel.exists({ email: email, password: password });
 

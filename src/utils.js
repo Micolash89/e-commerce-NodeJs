@@ -88,23 +88,52 @@ const transporter = nodemailer.createTransport({
 
 })
 
-export const sendMail = async (email) => {
+export const sendMail = async (email, url) => {
 
     await transporter.sendMail({
         from: `E-comerce`,// sender address cambiar para mas adelante
         to: email,//req.user.user.email
         subject: 'Registrado ✔', //cambiar titulo
         html: `
-        <div>
-            <h1>Hello world?</h1>
-            <img src='cid:perrito1'/>
-        </div>
-        `,//cambiar html
-        // attachments: [{
-        //     filename: 'perrito1.jpg',//nombre del archivo guardado en tu carpeta images
-        //     path: __dirname + '/img/perrito1.jpg',//foto del ecomerce
-        //     cid: 'perrito1'//nombre del archivo o algo por el estilo
-        // }]
+        <section style="font-family: Hanken Grotesk, sans-serif; background-color: #f9f9f9; text-align: center; padding: 15px;">
+
+        <table style="max-width: 800px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+            <tr>
+                <td colspan="2" style="background-color: #008ecc; height: 30px;"></td>
+            </tr>
+            <tr>
+                <td style="width: 50%; border-bottom: 1px solid #05abf3; text-align: left; padding: 5% 0;">
+                    <h2 style="font-size: 2rem; margin: 0; text-transform: capitalize; color: #008ecc;">¡Bienvenido a nuestro <br/> E-commerce <strong>MegaMart</strong>!</h2>
+                    <p style="font-size: 1rem;">Gracias por unirte a nuestra comunidad. Estamos emocionados de tenerte como parte de nuestra familia.</p>
+                    <ul>
+                        <li style="font-size: 0.875rem;">Explorar una amplia gama de productos.</li>
+                        <li style="font-size: 0.875rem;">Realizar compras de forma segura y conveniente.</li>
+                        <li style="font-size: 0.875rem;">Gestionar tu carrito de compra y ver tus pedidos.</li>
+                    </ul>
+                </td>
+                <td style="width: 50%; border-bottom: 1px solid #05abf3; overflow: hidden;">
+                    <img style="width: 50%;max-width: 100%; height: 50%; display: block; margin: 0 auto;" src="cid:sign_up" alt="sign up">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 15px; text-align: center;">
+                    <p style="font-size: 1rem; margin-bottom: 15px;">¡Comienza a explorar nuestro catálogo ahora mismo!</p>
+                    <a href="${url}/e-commerce-Coder-FrontEnd/#/login" style="padding: 10px 20px; background-color: #008ecc; color: white; text-decoration: none; border-radius: 15px; text-transform: uppercase; box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.6);">Iniciar Sesión</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="background-color: #008ecc; height: 30px;"></td>
+            </tr>
+        </table>
+    
+    </section>
+
+        `,
+        attachments: [{
+            filename: 'sign_up.png',//nombre del archivo guardado en tu carpeta images
+            path: __dirname + '/images/sign_up.png',//foto del ecomerce
+            cid: 'sign_up'//nombre del archivo o algo por el estilo
+        }]
     })
 
 }
@@ -115,16 +144,50 @@ export const sendMailRestore = async (user, token, url) => {
         to: user.email,//req.user.user.email
         subject: 'Restaurar password ✔', //cambiar titulo
         html: `
-        <div>
-        <a href="${url}/e-commerce-Coder-FrontEnd/#/restorepassword/${token}">Click aqui para restaurar</a>
-        </div>
-        `,//cambiar html
-        // <a href="http://localhost:8080/api/sessions/restorepassword/${token}">Click aqui para restaurar</a>
-        // attachments: [{
-        //     filename: 'perrito1.jpg',//nombre del archivo guardado en tu carpeta images
-        //     path: __dirname + '/img/perrito1.jpg',//foto del ecomerce
-        //     cid: 'perrito1'//nombre del archivo o algo por el estilo
-        // }]
+        <section style="font-family: Hanken Grotesk, sans-serif; background-color: #f9f9f9; text-align: center; padding: 15px;">
+
+    <table style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+        <tr>
+            <td colspan="2" style="background-color: #008ecc; height: 30px;"></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: left; padding: 5%;">
+                <h2 style="font-size: 2rem; margin: 0; text-transform: capitalize; color: #008ecc;">Restablecer Contraseña</h2>
+                <p style="font-size: 1rem;">Hemos recibido una solicitud para restablecer tu contraseña. Sigue los siguientes pasos para completar el proceso:</p>
+                <ol>
+                    <li style="font-size: 0.875rem;">Haz clic en el siguiente enlace para restablecer tu contraseña:</li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center; padding: 5%;">
+                <a href="${url}/e-commerce-Coder-FrontEnd/#/restorepassword/${token}" style="padding: 10px 20px; background-color: #008ecc; color: white; text-decoration: none; border-radius: 15px; text-transform: uppercase; box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.6);">Restablecer Contraseña</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: left; padding: 5%;">
+                <p style="font-size: 1rem;">Si no solicitaste este restablecimiento de contraseña, puedes ignorar este correo electrónico o ponerte en contacto con nosotros.</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="width: 50%; padding: 5%;overflow: hidden;">
+                <img style="width: 50%;max-width: 100%; height: 50%; display: block; margin: 0 auto;" src="cid:login"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="background-color: #008ecc; height: 30px;"></td>
+        </tr>
+    </table>
+
+</section>
+
+`,//cambiar html
+
+        attachments: [{
+            filename: 'login.png',//nombre del archivo guardado en tu carpeta images
+            path: __dirname + '/images/login.png',//foto del ecomerce
+            cid: 'login'//nombre del archivo o algo por el estilo
+        }]
     })
 
 }

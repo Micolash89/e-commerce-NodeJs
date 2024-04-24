@@ -8,9 +8,9 @@ export const getAllTickets = async (req, res) => {
 
         const user = req.user.user;
 
-        const ticket = await ticketDB.getAllTiket(user);
+        let ticket = await ticketDB.getAllTiket(user);
 
-        res.send({ status: "success", payload: ticket });
+        res.send({ status: "success", payload: ticket.reverse() });
 
     } catch (error) {
         res.status(500).send({ status: "error", message: error })
