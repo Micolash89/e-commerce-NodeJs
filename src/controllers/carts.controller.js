@@ -212,7 +212,7 @@ export const purchaseCart = async (req, res) => {
 
         let newTicket;
         if (total == 0) {
-            return res.send({ status: 'error', message: 'No hay productos en el carrito' });
+            return res.send({ status: 'error', message: 'No hay productos en el carrito', productsLeft: cart.products });
         }
 
         const result = await cartsDB.updateUno(cid, itemsLeft);
