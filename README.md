@@ -1,4 +1,4 @@
-# Backend de la API REST para el E-commerce
+# Backend de la API REST para E-commerce
 
 Este proyecto consiste en un backend desarrollado en Node.js que proporciona una API REST para un e-commerce. A continuación se detallan las dependencias utilizadas y las rutas disponibles en la API.
 
@@ -116,4 +116,4 @@ A continuación se muestran algunas capturas de pantalla del proyecto:
 
 1. Clonar este repositorio.
 2. Instalar las dependencias utilizando `npm install`.
-3. Ejecutar el proyecto utilizando `npm run dev`.
+3. Ejecutar el proyecto utilizando `node src/app.js`.

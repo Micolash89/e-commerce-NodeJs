@@ -5,9 +5,10 @@ const __dirname = dirname(__filename);
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import passport from 'passport';
-import { faker } from '@faker-js/faker';
+import { faker, ur } from '@faker-js/faker';
 import nodemailer from 'nodemailer';
 import config from './config/config.js';
+import PDFDocument from 'pdfkit-table';
 
 
 export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -238,6 +239,98 @@ export const getCookie = (cookiesString) => {
 
     return null;
 
+}
+
+/*buildPDF*/
+export function buildPdf(dataCallback, endCallback, user, ticket) {
+
+    const doc = new PDFDocument({ margin: 30, size: 'A4' });
+
+    doc.on('data', dataCallback);
+    doc.on('end', endCallback);
+
+    const anchoPagina = doc.page.width;
+    const altoPagina = doc.page.height;
+
+    doc.fontSize(18)
+        .fillColor('#008ecc')
+        .text('MegaMart')
+        .fillColor('#000000')
+        .fontSize(13)
+        .text('Confirmación De Orden')
+        .fontSize(10)
+        .text('• N° Ticket: ' + ticket.code)
+        .text('• Fecha:  ' + ticket.purchase_datetime)
+        .text("\n");
+
+    let textX = doc.x;
+    let textY = doc.y;
+
+    doc.moveTo(textX, textY)
+        .lineTo(textX + 500, textY)
+        .stroke();
+
+    doc.text("\n")
+        .fontSize(13)
+        .text('Detalles De Cliente: ')
+        .fontSize(10)
+        .text('• Id: ' + user._id)
+        .text('• Cliente: ' + user.firt_name + ' ' + user.last_name)
+        .text('• Email: ' + user.email)
+        .text('• Rol: ' + user.role)
+        .text("\n");
+
+    textX = doc.x;
+    textY = doc.y;
+
+    doc.moveTo(textX, textY)
+        .lineTo(textX + 500, textY)
+        .stroke();
+
+    doc.text("\n")
+        .text('¡Hola,' + user.firt_name + "!")
+        .text('Gracias por comprar con nosotros. Te enviaremos una confirmación cuando tusartículos sean enviados. Esperamos verte de nuevo pronto.')
+        .text("\n")
+        .text("\n");
+
+    let rows = [];
+
+    ticket.products.forEach(element => {
+        rows.push([element.product.title, "$" + element.product.price, element.quantity, "$" + element.product.price * element.quantity])
+    });
+
+    let tableArray = {
+        headers: ["Nombre", "precio", "cantidad", "subtotal"],
+        rows,
+    };
+    doc.table(tableArray, { width: 500 });
+
+
+    tableArray = {
+        headers: ["", "", "", ""],
+        rows: [["Total a pagar: ", "", "", "$" + ticket.amount]],
+    };
+
+    doc.table(tableArray, { width: 500 });
+
+    const texto = 'E-commerce MegaMart. Gracias por comprar con nosotros. Enviaremos una confirmación cuando tus productos sean enviados. Esperamos verte pronto.Todos los derechos reservados © MegaMart.'
+
+
+    // Calcular la anchura del texto
+    const anchoTexto = doc.widthOfString(texto);
+
+    // Calcular la posición x del texto para centrarlo horizontalmente
+    const x = ((anchoPagina - anchoTexto) / 2) + 100;
+
+    // Calcular la posición y del texto para situarlo en la parte inferior
+    const y = altoPagina - 50; // Puedes ajustar el valor 50 según sea necesario
+
+    // Agregar el texto a la posición calculada
+    doc.text(texto, x, y, {
+        align: 'center'
+    });
+
+    doc.end();
 }
 
 

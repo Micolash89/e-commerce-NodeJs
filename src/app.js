@@ -17,6 +17,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
 import cors from 'cors';
 import ticketsRouter from "./routes/tickets.router.js";
+import pdfkitRouter from "./routes/pdfkit.router.js";
 
 
 
@@ -75,5 +76,6 @@ app.use('/api/products', productRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/sessions', sessionRouter);
 app.use('/api/tickets', ticketsRouter);
+app.use('/api/pdf', pdfkitRouter);
 
 const server = app.listen(port, () => console.log("conexion"));
