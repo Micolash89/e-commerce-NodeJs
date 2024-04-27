@@ -158,7 +158,13 @@ export const getmyProducts = async (req, res) => {
         uemail = user.role == 'admin' ? "admin" : user.email;
 
         // const uemail = req.user.user.email;
-        const products = await product.getmyProducts(uemail);
+        let products = [];
+        if (uemail == 'admin') {
+            products = await product.getAll();
+        } else {
+
+            products = await product.getmyProducts(uemail);
+        }
 
         res.send({ status: "success", payload: products });
 
