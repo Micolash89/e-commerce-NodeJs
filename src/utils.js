@@ -241,6 +241,9 @@ export const getCookie = (cookiesString) => {
 
 }
 
+const format = (date, locale, options) =>
+    new Intl.DateTimeFormat(locale, options).format(date);
+
 /*buildPDF*/
 export function buildPdf(dataCallback, endCallback, user, ticket) {
 
@@ -248,6 +251,8 @@ export function buildPdf(dataCallback, endCallback, user, ticket) {
 
     doc.on('data', dataCallback);
     doc.on('end', endCallback);
+
+    const day = new Date(ticket.purchase_datetime);
 
     const anchoPagina = doc.page.width;
     const altoPagina = doc.page.height;
@@ -260,7 +265,7 @@ export function buildPdf(dataCallback, endCallback, user, ticket) {
         .text('Confirmación De Orden')
         .fontSize(10)
         .text('• N° Ticket: ' + ticket.code)
-        .text('• Fecha:  ' + ticket.purchase_datetime)
+        .text('• Fecha:  ' + format(day, "es", { dateStyle: "full" }))
         .text("\n");
 
     let textX = doc.x;
@@ -275,7 +280,7 @@ export function buildPdf(dataCallback, endCallback, user, ticket) {
         .text('Detalles De Cliente: ')
         .fontSize(10)
         .text('• Id: ' + user._id)
-        .text('• Cliente: ' + user.firt_name + ' ' + user.last_name)
+        .text('• Cliente: ' + user.first_name + ' ' + user.last_name)
         .text('• Email: ' + user.email)
         .text('• Rol: ' + user.role)
         .text("\n");
@@ -288,7 +293,7 @@ export function buildPdf(dataCallback, endCallback, user, ticket) {
         .stroke();
 
     doc.text("\n")
-        .text('¡Hola,' + user.firt_name + "!")
+        .text('¡Hola,' + user.first_name + "!")
         .text('Gracias por comprar con nosotros. Te enviaremos una confirmación cuando tusartículos sean enviados. Esperamos verte de nuevo pronto.')
         .text("\n")
         .text("\n");

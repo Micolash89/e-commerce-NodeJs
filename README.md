@@ -1,5 +1,7 @@
 # Backend de la API REST para E-commerce
 
+---
+
 Este proyecto consiste en un backend desarrollado en Node.js que proporciona una API REST para un e-commerce. A continuación se detallan las dependencias utilizadas y las rutas disponibles en la API.
 
 ## Deploy
@@ -34,6 +36,8 @@ A continuación se detallan las dependencias utilizadas en este proyecto:
 | swagger-jsdoc        | ^6.2.8       |
 | swagger-ui-express   | ^5.0.0       |
 | winston              | ^3.12.0      |
+| pdfkit               | ^0.15.0      |
+| pdfkit-table         | ^0.1.99      |
 
 ### Dependencias de desarrollo
 
@@ -53,6 +57,7 @@ A continuación se detallan las rutas disponibles en la API:
 - `/api/carts`: Endpoints relacionados con los carritos de compra.
 - `/api/sessions`: Endpoints relacionados con las sesiones de usuario.
 - `/api/tickets`: Endpoints relacionados con los tickets de compra.
+- `/api/pdf`: Endpoints relacionados con los tickets de compra en formato pdf.
 
 ### Rutas de Productos
 
@@ -104,12 +109,19 @@ A continuación se detallan las rutas disponibles en la API:
 - `GET /api/tickets/owntickets`: Obtiene todos los tickets del usuario actual.
 - `GET /api/tickets/getticket/:tid`: Obtiene un ticket específico por su ID.
 
+### Rutas de Tickets
+
+- `GET /api/pdf/generatepdf/:tid`: obtiene un archivo PDF a partir de un id de ticket.
+
 ## Capturas de Pantalla
 
 A continuación se muestran algunas capturas de pantalla del proyecto:
 
 <p  align="center">
-    <img src="https://i.imgur.com/72YK9wv." alt="HomePage" width=50% />
+    <img src="https://i.imgur.com/pnVziyr.jpeg" alt="HomePage" width=50% />
+    <img src="https://i.imgur.com/XXbHDhn.png" alt="HomePage" width=50% />
+    <img src="https://i.imgur.com/KoBWzSb.png" alt="HomePage" width=50% />
+    <img src="https://i.imgur.com/26QEUmf.jpeg" alt="HomePage" width=50% />
 </p>
 
 ## Instrucciones de Ejecución
@@ -117,3 +129,17 @@ A continuación se muestran algunas capturas de pantalla del proyecto:
 1. Clonar este repositorio.
 2. Instalar las dependencias utilizando `npm install`.
 3. Ejecutar el proyecto utilizando `node src/app.js`.
+
+---
+
+### Desarrollado por:
+
+- [@Micolash89](https://github.com/Micolash89) [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/javier-espindola/)
+
+#### Colaboradores:
+
+- [@tromenArarat](https://github.com/tromenArarat) [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/tomasmanoukian/)
+- [@Mat-Insaurralde](https://github.com/Mat-Insaurralde/) [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/javier-insaurralde-3aa783274/)
+- [@ma3rtin](https://github.com/ma3rtin)
+
+---

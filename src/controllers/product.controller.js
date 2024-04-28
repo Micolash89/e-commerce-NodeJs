@@ -19,7 +19,6 @@ export const getProduct = async (req, res) => {
     products.nextLink = products.hasNextPage ? `/api/products?page=${products.nextPage}` : '';
     products.isValid = !(page <= 0 || page > products.totalPages);
 
-    //res.render("products", products);
     res.send({ status: 'ok', payload: products });
 }
 
