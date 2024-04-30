@@ -15,4 +15,5 @@ export default {
     dev: process.env.URL_DEV,
     prod: process.env.URL_PROD,
     all: process.env.URL_ALL,
+    accessTokenMP: process.env.ACCESS_TOKEN_MP
 }

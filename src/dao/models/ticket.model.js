@@ -26,6 +26,12 @@ const ticketSchema = new mongoose.Schema({
         }],
         default: [],
         required: true
+    },
+    status: {
+        type: String,
+        enum: ['pendiente', 'aceptado', 'cancelado'],
+        default: 'pendiente',
+        required: true
     }
 });
 

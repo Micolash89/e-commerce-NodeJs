@@ -91,7 +91,9 @@ export const putProduct = async (req, res) => {
 
 
         let prod = await product.getOne(pid);
+        console.log("antes", req.body);
         const productNew = ProductDTO.getModifyProduct(req.body);
+        console.log("despues", productNew);
 
         if (!prod) {
 

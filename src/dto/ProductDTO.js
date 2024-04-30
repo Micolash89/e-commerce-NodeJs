@@ -4,9 +4,9 @@ export default class ProductDTO {
             title: product.title.charAt(0).toUpperCase() + product.title.slice(1),
             description: product.description.charAt(0).toUpperCase() + product.description.slice(1),
             code: product.code,
-            price: Number.parseFloat(product.price),
+            price: Number(product.price),
             status: true,
-            stock: Number.parseInt(product.stock),
+            stock: Number(product.stock),
             category: product.category.charAt(0).toUpperCase() + product.category.slice(1),
             url: product.url
         }
@@ -16,8 +16,8 @@ export default class ProductDTO {
             title: product.title.charAt(0).toUpperCase() + product.title.slice(1),
             description: product.description.charAt(0).toUpperCase() + product.description.slice(1),
             code: product.code,
-            price: Number.parseFloat(product.price),
-            stock: Number.parseInt(product.stock),
+            price: Number(product.price),
+            stock: Number(product.stock),
             status: true,
             category: product.category.charAt(0).toUpperCase() + product.category.slice(1),
             url: product.url

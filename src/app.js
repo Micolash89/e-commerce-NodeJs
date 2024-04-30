@@ -18,6 +18,7 @@ import swaggerUiExpress from "swagger-ui-express";
 import cors from 'cors';
 import ticketsRouter from "./routes/tickets.router.js";
 import pdfkitRouter from "./routes/pdfkit.router.js";
+import mercadoPagoRouter from "./routes/mercadoPago.router.js";
 
 
 
@@ -77,5 +78,6 @@ app.use('/api/carts', cartsRouter);
 app.use('/api/sessions', sessionRouter);
 app.use('/api/tickets', ticketsRouter);
 app.use('/api/pdf', pdfkitRouter);
+app.use('/api/mercadopago', mercadoPagoRouter);
 
 const server = app.listen(port, () => console.log("conexion"));

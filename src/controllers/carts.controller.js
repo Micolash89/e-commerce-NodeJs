@@ -185,6 +185,8 @@ export const deleteCart = async (req, res) => {
 export const purchaseCart = async (req, res) => {
     try {
 
+        const { status } = req.body;
+
         const cid = req.user.user.cart;
 
         const cart = await cartsDB.getOne(cid);
@@ -216,7 +218,7 @@ export const purchaseCart = async (req, res) => {
         }
 
         const result = await cartsDB.updateUno(cid, itemsLeft);
-        newTicket = TicketDTO.getTicket(total, req.user.user.email, productPurchase)
+        newTicket = TicketDTO.getTicket(total, req.user.user.email, productPurchase, status)
         const ticket = await ticketDB.createTiket(newTicket);
 
         return res.send({ status: 'ok', payload: ticket, productsLeft: itemsLeft });

@@ -220,10 +220,6 @@ export const generateProducts = () => {
 
 export const getCookie = (cookiesString) => {
 
-    // let cookie2 = ""
-    // cookie2.includes()
-
-    // console.log(cookiesString);
     const cookies = {};
     if (cookiesString) {
 
@@ -266,6 +262,7 @@ export function buildPdf(dataCallback, endCallback, user, ticket) {
         .fontSize(10)
         .text('• N° Ticket: ' + ticket.code)
         .text('• Fecha:  ' + format(day, "es", { dateStyle: "full" }))
+        .text("• Estado: " + ticket.status)
         .text("\n");
 
     let textX = doc.x;
@@ -331,12 +328,13 @@ export function buildPdf(dataCallback, endCallback, user, ticket) {
     const y = altoPagina - 50; // Puedes ajustar el valor 50 según sea necesario
 
     // Agregar el texto a la posición calculada
+
+    doc.text(ticket.status == "aceptado" ? "*Nota: se pago con Mercado Pago" : "*Nota: se reservo pero aun no se pago");
     doc.text(texto, x, y, {
         align: 'center'
     });
 
     doc.end();
 }
-
 
 export default __dirname;
