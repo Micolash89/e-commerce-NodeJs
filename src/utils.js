@@ -328,10 +328,12 @@ export function buildPdf(dataCallback, endCallback, user, ticket) {
     const y = altoPagina - 50; // Puedes ajustar el valor 50 según sea necesario
 
     // Agregar el texto a la posición calculada
-    if (ticket.status == "aceptado")
+    if (ticket.status == "aceptado") {
         doc.text("*Nota: se pago con Mercado Pago");
-    else
+    }
+    else {
         doc.text("*Nota: se reservo pero aun no se pago");
+    }
     doc.text(texto, x, y, {
         align: 'center'
     });
