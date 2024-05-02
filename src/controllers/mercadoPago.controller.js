@@ -14,19 +14,10 @@ export const getID = async (req, res) => {
         };
     });
 
-
     const url = req.rawHeaders.find(e => e.startsWith("http"));
 
     try {
         const body = {
-            // items: [
-            //     {
-            //         title: req.body.items[0].title,
-            //         quantity: Number(req.body.items[0].quantity),
-            //         unit_price: Number(req.body.items[0].price),
-            //         currency_id: "ARS",
-            //     },
-            // ],
             items: items,
             back_urls: {
                 success: `${url}/e-commerce-Coder-FrontEnd/#/cart`,
@@ -41,7 +32,5 @@ export const getID = async (req, res) => {
     } catch (error) {
         console.log("Error preference", error);
     }
-
-
 
 }

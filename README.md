@@ -7,9 +7,9 @@ Este proyecto consiste en un backend desarrollado en Node.js que proporciona una
 ## Deploy
 
 - El backend está desplegado en [Render](https://dashboard.render.com/).
-  - [Enlace al despliegue](https://e-commerce-nodejs-2-4qw3.onrender.com/)
+  - <img src="https://w7.pngwing.com/pngs/931/769/png-transparent-database-icon-database-free-blue-background-blue-angle-world.png" width="30" height="20"> [Enlace al despliegue](https://e-commerce-nodejs-2-4qw3.onrender.com/)
 - Repositorio del frontend.
-  - [Enlace al frontend](https://github.com/Micolash89/e-commerce-Coder-FrontEnd?tab=readme-ov-file)
+  - <img src="https://w7.pngwing.com/pngs/914/758/png-transparent-github-social-media-computer-icons-logo-android-github-logo-computer-wallpaper-banner-thumbnail.png" width="30" height="30"> [Enlace al frontend](https://github.com/Micolash89/e-commerce-Coder-FrontEnd?tab=readme-ov-file)
 
 ## Dependencias
 
@@ -38,6 +38,7 @@ A continuación se detallan las dependencias utilizadas en este proyecto:
 | winston              | ^3.12.0      |
 | pdfkit               | ^0.15.0      |
 | pdfkit-table         | ^0.1.99      |
+| mercadopago          | ^2.0.9       |
 
 ### Dependencias de desarrollo
 
@@ -111,7 +112,11 @@ A continuación se detallan las rutas disponibles en la API:
 
 ### Rutas de Tickets
 
-- `GET /api/pdf/generatepdf/:tid`: obtiene un archivo PDF a partir de un id de ticket.
+- `GET /api/pdf/generatepdf/:tid`: Obtiene un archivo PDF a partir de un id de ticket.
+
+### Rutas de MercadoPago
+
+- `GET /api/mercadopago/create_preference`: Crea una preferencia de pago de Mercado Pago.
 
 ## Capturas de Pantalla
 
